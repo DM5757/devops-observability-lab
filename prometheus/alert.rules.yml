@@ -1,0 +1,11 @@
+groups:
+  - name: observability-app-alerts
+    rules:
+      - alert: CriticalHighErrorRate
+        expr: increase(app_errors_total[1m]) > 5
+        for: 0m
+        labels:
+          severity: critical
+        annotations:
+          summary: "CRITICAL error rate detected in observability-app"
+          description: "More than 5 errors occurred in the last minute (current value: {{ $value }})."

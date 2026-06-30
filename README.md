@@ -289,65 +289,47 @@ Makefile                      Convenience commands
 
 ## Evidence
 
-### Docker Compose deployment
+### 1. CI/CD and Security
 
-All five services running after `docker compose up --build`:
-
-[![All observability services running in Docker Compose](screenshots/docker-compose-running.png)](screenshots/docker-compose-running.png)
-
-### Setup script
-
-One-command environment setup with `bash scripts/setup.sh`:
-
-[![Setup script completing successfully with service URLs](screenshots/setup-script.png)](screenshots/setup-script.png)
-
-### Validate script
-
-Health checks for all services with PASS/FAIL output:
-
-[![Validate script showing all checks passed](screenshots/validate-script.png)](screenshots/validate-script.png)
-
-### Grafana dashboard
-
-Request rate, error rate, and counter panels from the pre-provisioned **Observability Lab Dashboard**:
-
-[![Grafana dashboard showing request rate, error rate, and counters](screenshots/grafana-dashboard.png)](screenshots/grafana-dashboard.png)
-
-### Log analysis
-
-Application JSON logs in Grafana, filtered via Loki (`service="observability-app"`):
-
-[![Grafana Loki log panel showing structured JSON application logs](screenshots/grafana-logs.png)](screenshots/grafana-logs.png)
-
-### Alert rule evidence
-
-`CriticalHighErrorRate` firing in Grafana after visiting `/simulate-errors`:
-
-[![CriticalHighErrorRate alert firing in Grafana or Prometheus](screenshots/grafana-alert.png)](screenshots/grafana-alert.png)
-
-### CI pipeline
-
-GitHub Actions workflow passing lint, tests, and security scans:
+**CI Success** — GitHub Actions workflow passing lint, tests, audit, and security scans:
 
 [![GitHub Actions CI workflow passing](screenshots/ci-success.png)](screenshots/ci-success.png)
 
-### Security CI
+**Trivy Image Scan** — HIGH/CRITICAL vulnerabilities reported in the Docker image scan job:
 
-GitHub Actions security jobs (Gitleaks, Trivy):
+[![Trivy image vulnerability scan results in CI](screenshots/trivy-scan.png)](screenshots/trivy-scan.png)
 
-[![GitHub Actions security scanning jobs passing](screenshots/security-ci.png)](screenshots/security-ci.png)
+### 2. Environment Automation
 
-### Trivy scan
+**Setup Script** — one-command stack startup with `bash scripts/setup.sh`:
 
-Trivy filesystem or image vulnerability scan results:
+[![Setup script completing successfully with service URLs](screenshots/setup-script.png)](screenshots/setup-script.png)
 
-[![Trivy vulnerability scan results in CI](screenshots/trivy-scan.png)](screenshots/trivy-scan.png)
+**Validation Script** — health checks for all services with PASS/FAIL output:
 
-### Restart script
+[![Validate script showing all checks passed](screenshots/validate-script.png)](screenshots/validate-script.png)
 
-Application container restart with health check confirmation:
+**Restart Script** — app container restart with health check confirmation:
 
 [![Restart script confirming app health after restart](screenshots/restart-script.png)](screenshots/restart-script.png)
+
+**Docker Compose Running** — all five services up after `docker compose up --build`:
+
+[![All observability services running in Docker Compose](screenshots/docker-compose-running.png)](screenshots/docker-compose-running.png)
+
+### 3. Observability
+
+**Grafana Dashboard** — request rate, error rate, and counter panels:
+
+[![Grafana dashboard showing request rate, error rate, and counters](screenshots/grafana-dashboard.png)](screenshots/grafana-dashboard.png)
+
+**Grafana Logs** — structured JSON application logs via Loki:
+
+[![Grafana Loki log panel showing structured JSON application logs](screenshots/grafana-logs.png)](screenshots/grafana-logs.png)
+
+**Grafana Alert** — `CriticalHighErrorRate` firing after `/simulate-errors`:
+
+[![CriticalHighErrorRate alert firing in Grafana](screenshots/grafana-alert.png)](screenshots/grafana-alert.png)
 
 ## Analysis Questions
 

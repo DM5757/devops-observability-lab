@@ -1,4 +1,5 @@
 const express = require("express");
+const helmet = require("helmet");
 const client = require("prom-client");
 
 const app = express();
@@ -48,6 +49,12 @@ function recordError(route, message) {
     message,
   });
 }
+
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 
 app.use((req, res, next) => {
   const start = Date.now();

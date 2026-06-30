@@ -5,7 +5,8 @@ on:
   pull_request:
 
 jobs:
-  test:
+  quality:
+    name: Lint, Test & Audit
     runs-on: ubuntu-latest
 
     steps:
@@ -26,3 +27,58 @@ jobs:
 
       - name: Test
         run: npm test
+
+      - name: npm audit (high and critical only)
+        run: npm audit --audit-level=high
+
+  secrets:
+    name: Gitleaks Secrets Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  trivy-fs:
+    name: Trivy Filesystem Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Trivy filesystem scan
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          format: table
+          severity: HIGH,CRITICAL
+          exit-code: 1
+
+  docker-security:
+    name: Docker Build & Image Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t observability-lab:ci .
+
+      - name: Trivy image scan
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: image
+          image-ref: observability-lab:ci
+          format: table
+          severity: HIGH,CRITICAL
+          exit-code: 1
